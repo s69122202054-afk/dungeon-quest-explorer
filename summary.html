@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon Quest - ใบสรุปผลภารกิจ (Quest Ticket)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <span class="logo-icon">🎖️</span>
+            <h2>Dungeon Quest Explorer</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">1. เลือกเนื้อเรื่อง (Tree)</a></li>
+                <li><a href="search.html">2. วางแผนเส้นทาง (Graph)</a></li>
+                <li><a href="detail.html">3. รายละเอียดภารกิจ</a></li>
+                <li><a href="summary.html" class="active">4. สรุปผลภารกิจ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>หน้า 4: ใบสรุปการพิชิตภารกิจ (Quest Completion Ticket)</h1>
+            
+            <div class="ticket-container">
+                <h2 style="letter-spacing: 2px;">QUEST CLEAR CERTIFICATE</h2>
+                <p style="color: #a3a3a3;">Sol's RNG Void Quest Completion Document</p>
+                <hr style="border-color: #ffffff; margin: 1.5rem 0;">
+
+                <p><strong>ฉากจบที่ได้รับ (Tree Leaf):</strong> <span id="finalEnding" style="font-weight: bold; text-shadow: 0 0 10px #fff;"></span></p>
+                <p><strong>สายการตัดสินใจในเกม:</strong> <span id="finalTreePath"></span></p>
+                <br>
+                <p><strong>สถานที่ตั้งต้น:</strong> <span id="finalStart"></span></p>
+                <p><strong>สถานที่ปลายทาง:</strong> <span id="finalTarget"></span></p>
+                <p><strong>พลังงาน Stamina รวมที่ใช้ (Total Weight):</strong> <strong id="finalStamina" style="font-size: 1.2rem; text-shadow: 0 0 10px #fff;"></strong> SP</p>
+                <br>
+                <button class="btn" onclick="playSFX('click'); window.print();">พิมพ์ใบสรุปผลการผจญภัย (Print Ticket)</button>
+                <br><br>
+                <button class="btn btn-sm btn-secondary" onclick="resetAllData()">↺ เริ่มเกมใหม่ (Reset Journey)</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>โครงงานคณิตศาสตร์ดิสครีต | Interactive Game Quest (Monochrome Sol's RNG Edition)</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("finalEnding").innerText = getSelectedEnding();
+        document.getElementById("finalTreePath").innerText = getSelectedQuestTreePath();
+        document.getElementById("finalStart").innerText = localStorage.getItem("startLocation") || "-";
+        document.getElementById("finalTarget").innerText = localStorage.getItem("targetLocation") || "-";
+        document.getElementById("finalStamina").innerText = localStorage.getItem("totalStamina") || "0";
+    </script>
+</body>
+</html>

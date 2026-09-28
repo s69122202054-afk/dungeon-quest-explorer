@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon Quest - รายละเอียดภารกิจ (Quest Log)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <span class="logo-icon">⚔️</span>
+            <h2>Dungeon Quest Explorer</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">1. เลือกเนื้อเรื่อง (Tree)</a></li>
+                <li><a href="search.html">2. วางแผนเส้นทาง (Graph)</a></li>
+                <li><a href="detail.html" class="active">3. รายละเอียดภารกิจ</a></li>
+                <li><a href="summary.html">4. สรุปผลภารกิจ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>หน้า 3: รายละเอียดขั้นตอนการผจญภัย (Quest Path Detail)</h1>
+            
+            <div class="path-box">
+                <h3>ผังเส้นทางสายการตัดสินใจ (จาก Tree):</h3>
+                <p id="treePathDisplay" style="font-weight: bold; text-shadow: 0 0 8px #fff;"></p>
+            </div>
+
+            <h3>ลำดับการตะลุยด่านตามแผนที่ (Graph Edges & Stamina Weight):</h3>
+            <div id="stepList" style="margin-top: 1rem;"></div>
+
+            <br>
+            <a href="summary.html" class="btn" onclick="playSFX('click')">ยืนยันภารกิจเพื่อออกตั๋วสรุปผลการผจญภัย &rarr;</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>โครงงานคณิตศาสตร์ดิสครีต | Interactive Game Quest (Monochrome Sol's RNG Edition)</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("treePathDisplay").innerText = getSelectedQuestTreePath();
+
+        const pathData = JSON.parse(localStorage.getItem("calculatedQuestPath") || "[]");
+        const stepList = document.getElementById("stepList");
+
+        if (pathData.length > 0) {
+            for (let i = 0; i < pathData.length; i++) {
+                const stepCard = document.createElement("div");
+                stepCard.className = "card";
+                stepCard.style.borderLeft = "4px solid #ffffff";
+                stepCard.style.marginBottom = "10px";
+                
+                if (i === 0) {
+                    stepCard.innerHTML = "<h4>ด่านที่ " + (i + 1) + ": เริ่มต้นที่ " + pathData[i].node + "</h4><p>จุดเริ่มต้นของเหล่านักผจญภัยใน Sol's Realm</p>";
+                } else {
+                    stepCard.innerHTML = "<h4>ด่านที่ " + (i + 1) + ": เดินทางไปยัง " + pathData[i].node + "</h4><p>ค่า Stamina ที่ใช้ข้าม Edge (Weight): <strong>" + pathData[i].stamina + " SP</strong></p>";
+                }
+                stepList.appendChild(stepCard);
+            }
+        } else {
+            stepList.innerHTML = "<p>ยังไม่ได้คำนวณเส้นทาง กรุณากลับไปหน้าค้นหาเส้นทาง (Graph)</p>";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&display=swap');
+
+:root {
+    --bg-main: #0b0d13;
+    --card-bg: rgba(18, 22, 32, 0.94);
+    --card-border: #384259;
+    --text-title: #ffffff;
+    --text-body: #e2e8f0;
+    --text-muted: #94a3b8;
+    --btn-bg: #e2e8f0;
+    --btn-text: #0b0d13;
+    --gold-accent: #d4af37;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Kanit', sans-serif;
+}
+
+/* 🏰 MEDIEVAL CASTLE BACKGROUND */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-body);
+    line-height: 1.7;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+
+    /* พื้นหลังไอหมอก แสงคบเพลิง และ Silhouette ปราสาทอัศวิน */
+    background-image: 
+        /* เงาปราสาทโบราณแบบ SVG Silhouette ด้านล่าง */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'%3E%3Cpath fill='%23050609' opacity='0.7' d='M0,400 L0,320 L40,320 L40,280 L60,280 L60,260 L80,260 L80,280 L100,280 L100,320 L180,320 L180,220 L210,220 L210,190 L225,190 L225,170 L245,170 L245,190 L260,190 L260,220 L290,220 L290,320 L450,320 L450,250 L480,250 L480,220 L510,220 L510,250 L540,250 L540,320 L680,320 L680,180 L700,180 L700,150 L720,150 L720,120 L730,120 L730,150 L750,150 L750,180 L770,180 L770,320 L920,320 L920,270 L950,270 L950,240 L980,240 L980,270 L1010,270 L1010,320 L1200,320 L1200,400 Z'/%3E%3C/svg%3E"),
+        /* บรรยากาศแสงคบเพลิงอัศวิน (Torch Glow) สีส้มอุ่นๆ และหมอกสีน้ำเงินเข้ม */
+        radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 0%, rgba(30, 41, 59, 0.5) 0%, transparent 70%);
+        
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: bottom center, center, center, center;
+    background-size: 100% 320px, 100% 100%, 100% 100%, 100% 100%;
+    background-attachment: fixed;
+}
+
+/* หมอกจางๆ รอบขอบจอ */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(5, 6, 9, 0.85) 98%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Header & Navigation */
+header {
+    background: rgba(11, 13, 19, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 1.2rem 2rem;
+    border-bottom: 2px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.8rem;
+}
+
+.logo-container h2 {
+    color: var(--text-title);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    background: #121622;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+nav a:hover, nav a.active {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-weight: 700;
+}
+
+/* Container & Cards (คมชัด อ่านสบายตา) */
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1.2rem;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 2rem;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+h1, h2, h3, h4 {
+    color: var(--text-title);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
+
+p {
+    color: var(--text-body);
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-body);
+    border: 1px solid var(--card-border);
+}
+
+.btn-secondary:hover {
+    background: #232a3d;
+    color: var(--text-title);
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    margin-right: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid var(--card-border);
+    color: var(--text-body);
+    background: #192030;
+    transition: all 0.2s;
+}
+
+.btn-sm:hover {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+}
+
+/* Decision Tree Nodes */
+.tree-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 1.2rem;
+}
+
+.tree-node-btn {
+    background: #171d2b;
+    border: 1px solid #384259;
+    color: var(--text-title);
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.tree-node-btn:hover {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-bg);
+}
+
+/* Boxes & Breadcrumbs */
+.breadcrumb {
+    background: #0f131d;
+    border: 1px solid var(--card-border);
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-body);
+}
+
+.path-box {
+    background: #0e111a;
+    border: 1px solid #384259;
+    color: var(--text-body);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 10px;
+}
+
+/* Forms & Select */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-title);
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    background: #0f121b;
+    color: var(--text-title);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-group select:focus {
+    border-color: #ffffff;
+}
+
+/* Canvas & Stamina Bar */
+.canvas-container {
+    text-align: center;
+    background: #090b10;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--card-border);
+    overflow-x: auto;
+}
+
+.stamina-bar-container {
+    width: 100%;
+    background-color: #0e111a;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    height: 20px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.stamina-bar-fill {
+    height: 100%;
+    background: #ffffff;
+    width: 100%;
+    transition: width 0.5s ease;
+}
+
+.traversal-box {
+    background: #0e111a;
+    border: 1px dashed var(--card-border);
+    padding: 1.2rem;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+}
+
+.ticket-container {
+    border: 2px dashed #384259;
+    background: #0d1018;
+    padding: 2.5rem;
+    border-radius: 14px;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--card-border);
+}
+
+/* Print Mode */
+@media print {
+    header, nav, footer, .btn { display: none !important; }
+    body { background: #ffffff !important; color: #000000 !important; }
+    .ticket-container { border: 2px solid #000000 !important; background: #ffffff !important; }
+    p, span, h2, strong { color: #000000 !important; }
+}

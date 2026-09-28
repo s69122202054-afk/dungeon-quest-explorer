@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon Quest - เลือกเนื้อเรื่อง (Tree Structure)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <span class="logo-icon">🏰</span>
+            <h2>Dungeon Quest Explorer</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">1. เลือกเนื้อเรื่อง (Tree)</a></li>
+                <li><a href="search.html">2. วางแผนเส้นทาง (Graph)</a></li>
+                <li><a href="detail.html">3. รายละเอียดภารกิจ</a></li>
+                <li><a href="summary.html">4. สรุปผลภารกิจ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>หน้า 1: เลือกสายการผจญภัย (Decision Tree System)</h1>
+            <p>เลือกการตัดสินใจทีละระดับเพื่อค้นหาฉากจบเป้าหมาย (Leaf Node)</p>
+            <br>
+            
+            <div class="breadcrumb" id="breadcrumb">
+                เส้นทางปัจจุบัน: <strong>Root</strong>
+            </div>
+
+            <h3>เลือกเส้นทางย่อย (Children):</h3>
+            <div class="tree-list" id="treeOptions"></div>
+
+            <div class="path-box" id="selectionSummary" style="display: none;">
+                <h3>เป้าหมายฉากจบที่คุณเลือก (Leaf Node):</h3>
+                <p id="selectedLeafText" style="font-size: 1.2rem; font-weight: bold; text-shadow: 0 0 10px #fff;"></p>
+                <br>
+                <a href="search.html" class="btn" onclick="playSFX('click')">ไปหน้าวางแผนการเดินแผนที่ (Graph) &rarr;</a>
+            </div>
+
+            <div class="traversal-box">
+                <h4>🎁 Bonus Feature: โหมดท่องต้นไม้ (Tree Traversal)</h4>
+                <p style="font-size: 0.85rem; color: #a3a3a3; margin-bottom: 10px;">ทดสอบการท่องโครงสร้างต้นไม้ในระบบ:</p>
+                <button class="btn btn-sm" onclick="runTraversal('pre')">Preorder</button>
+                <button class="btn btn-sm" onclick="runTraversal('post')">Postorder</button>
+                <button class="btn btn-sm" onclick="runTraversal('bfs')">BFS (Level-Order)</button>
+                <div id="traversalResult" style="margin-top: 12px; font-weight: bold; color: #ffffff;"></div>
+            </div>
+            
+            <br>
+            <button class="btn btn-sm btn-secondary" onclick="resetAllData()">↺ เริ่มการผจญภัยใหม่ทั้งหมด (Reset)</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>โครงงานคณิตศาสตร์ดิสครีต | Interactive Game Quest (Monochrome Sol's RNG Edition)</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        let currentNode = questTree;
+        let pathHistory = [questTree.name];
+
+        function renderTreeOptions() {
+            const container = document.getElementById("treeOptions");
+            const breadcrumb = document.getElementById("breadcrumb");
+            const summaryBox = document.getElementById("selectionSummary");
+            
+            breadcrumb.innerHTML = "เส้นทางปัจจุบัน: <strong>" + pathHistory.join(" &rarr; ") + "</strong>";
+            container.innerHTML = "";
+
+            if (currentNode.children && currentNode.children.length > 0) {
+                summaryBox.style.display = "none";
+                currentNode.children.forEach(child => {
+                    const btn = document.createElement("button");
+                    btn.className = "tree-node-btn";
+                    btn.innerText = child.name + " [" + child.type + "]";
+                    btn.onclick = () => {
+                        playSFX('click');
+                        currentNode = child;
+                        pathHistory.push(child.name);
+                        renderTreeOptions();
+                    };
+                    container.appendChild(btn);
+                });
+            } else {
+                summaryBox.style.display = "block";
+                document.getElementById("selectedLeafText").innerText = currentNode.name;
+                localStorage.setItem("selectedEnding", currentNode.name);
+                localStorage.setItem("selectedQuestTreePath", pathHistory.join(" -> "));
+            }
+        }
+
+        function runTraversal(type) {
+            playSFX('click');
+            let res = [];
+            if(type === 'pre') res = getPreorder(questTree);
+            else if(type === 'post') res = getPostorder(questTree);
+            else if(type === 'bfs') res = getBFS(questTree);
+            
+            document.getElementById("traversalResult").innerText = "ผลลัพธ์ (" + type.toUpperCase() + "): " + res.join(" ➔ ");
+        }
+
+        renderTreeOptions();
+    </script>
+</body>
+</html>

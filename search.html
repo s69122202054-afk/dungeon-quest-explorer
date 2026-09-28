@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon Quest - วางแผนเส้นทาง (Graph Theory)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <span class="logo-icon">🗺️</span>
+            <h2>Dungeon Quest Explorer</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">1. เลือกเนื้อเรื่อง (Tree)</a></li>
+                <li><a href="search.html" class="active">2. วางแผนเส้นทาง (Graph)</a></li>
+                <li><a href="detail.html">3. รายละเอียดภารกิจ</a></li>
+                <li><a href="summary.html">4. สรุปผลภารกิจ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h1>หน้า 2: วางแผนการเดินทางบนแผนที่ (Dijkstra Shortest Path)</h1>
+            <p>ฉากจบเป้าหมายที่เลือกจาก Tree: <strong id="targetEndingDisplay" style="text-shadow: 0 0 10px #fff;"></strong></p>
+            <hr style="border-color: #333; margin: 1rem 0;">
+
+            <h3>แผนที่กราฟดันเจี้ยน (Monochrome Visual Canvas):</h3>
+            <div class="canvas-container">
+                <canvas id="graphCanvas" width="580" height="300"></canvas>
+            </div>
+
+            <div class="form-group">
+                <label for="startLocation">สถานที่เริ่มต้น (Start Vertex):</label>
+                <select id="startLocation">
+                    <option value="Start Village">หมู่บ้านเริ่มต้น (Start Village)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="targetLocation">จุดหมายปลายทาง (Target Vertex):</label>
+                <select id="targetLocation">
+                    <option value="Demon Castle">ปราสาทจอมมาร (Demon Castle)</option>
+                    <option value="Ancient Ruins">ซากโบราณสถาน (Ancient Ruins)</option>
+                    <option value="Mystic River">แม่น้ำศักดิ์สิทธิ์ (Mystic River)</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="executeCalculatePath()">คำนวณเส้นทางประหยัด Stamina (Calculate Path)</button>
+
+            <div class="path-box" id="resultBox" style="display: none;">
+                <h3>ผลลัพธ์เส้นทาง (Optimized Path):</h3>
+                <p id="pathText"></p>
+                <p id="staminaText"></p>
+                
+                <p style="margin-top: 10px; font-size: 0.9rem;">สถานะ Stamina ตัวละครคงเหลือ:</p>
+                <div class="stamina-bar-container">
+                    <div class="stamina-bar-fill" id="staminaBar"></div>
+                </div>
+                <br>
+                <a href="detail.html" class="btn" onclick="playSFX('click')">ดูรายละเอียดขั้นตอนเดินด่าน (Quest Detail) &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>โครงงานคณิตศาสตร์ดิสครีต | Interactive Game Quest (Monochrome Sol's RNG Edition)</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("targetEndingDisplay").innerText = getSelectedEnding();
+
+        window.onload = () => {
+            drawGraphCanvas("graphCanvas");
+        };
+
+        function executeCalculatePath() {
+            const start = document.getElementById("startLocation").value;
+            const target = document.getElementById("targetLocation").value;
+
+            const resultPath = findQuestPath(start, target);
+            const resultBox = document.getElementById("resultBox");
+
+            if (resultPath) {
+                playSFX('success');
+                let nodesSequence = resultPath.map(p => p.node);
+                let totalStamina = resultPath.reduce((sum, p) => sum + p.stamina, 0);
+
+                document.getElementById("pathText").innerHTML = "ลำดับด่านที่ต้องผ่าน: <strong>" + nodesSequence.join(" &rarr; ") + "</strong>";
+                document.getElementById("staminaText").innerText = "พลังงาน Stamina รวมที่ใช้ (Total Weight): " + totalStamina + " SP";
+                
+                let remainingPercent = Math.max(0, 100 - totalStamina);
+                document.getElementById("staminaBar").style.width = remainingPercent + "%";
+
+                drawGraphCanvas("graphCanvas", nodesSequence);
+
+                localStorage.setItem("startLocation", start);
+                localStorage.setItem("targetLocation", target);
+                localStorage.setItem("calculatedQuestPath", JSON.stringify(resultPath));
+                localStorage.setItem("totalStamina", totalStamina);
+
+                resultBox.style.display = "block";
+            } else {
+                alert("ไม่พบเส้นทางที่เชื่อมต่อระหว่างจุดดังกล่าว");
+            }
+        }
+    </script>
+</body>
+</html>
